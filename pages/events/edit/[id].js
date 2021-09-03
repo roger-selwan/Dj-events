@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {FaImage} from 'react-icons/fa';
 import Layout from '@/components/Layout';
+import Modal from '@/components/Modal';
+import ImageUpload from '@/components/ImageUpload';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
 import moment from 'moment';
@@ -21,7 +23,9 @@ export default function EditEventPage({evt}) {
 		description: evt.description
 	});
 
-    const [imagePreview, setImagePreview] = useState(evt.image ? evt.image.formats.thumbnail.url : null)
+    const [imagePreview, setImagePreview] = useState(evt.image ? evt.image.formats.thumbnail.url : null);
+
+    const [showModal, setShowModal] = useState(false);
 
 	const router = useRouter();
 
@@ -55,6 +59,13 @@ export default function EditEventPage({evt}) {
 		const { name, value } = e.target;
 		setValues({ ...values, [name]: value });
 	};
+
+    const imageUploaded = async (e) => {
+        const res = await fetch(`${API_URL}/events/${evt.id}`);
+        const data = await res.json();
+        setImagePreview(data.image.formats.thumbnail.url);
+        setShowModal(false)
+    }
 
 	return (
 		<Layout title="Update new event">
@@ -123,10 +134,14 @@ export default function EditEventPage({evt}) {
             )}
 
             <div>
-                <button className='btn-secondary'>
+                <button onClick={() => setShowModal  (true)} className='btn-secondary'>
                     <FaImage /> Set image
                 </button>
             </div>
+
+            <Modal show={showModal} onClose={() => setShowModal(false)} >
+                <ImageUpload evtID={evt.id} imageUploaded={imageUploaded} />
+            </Modal>
 		</Layout>
 	);
 }
