@@ -54,24 +54,24 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params: { slug } }) {
-	const res = await fetch(`${API_URL}/events?slug=${slug}`);
-	const events = await res.json();
+// export async function getStaticProps({ params: { slug } }) {
+// 	const res = await fetch(`${API_URL}/events?slug=${slug}`);
+// 	const events = await res.json();
 
-	return {
-		props: {
-			evt: events[0]
-		},
-		revalidate: 1
-	};
-}
-// export async function getServerSideProps({ query: {slug}}) {
-//     const res = await fetch(`${API_URL}/api/events/${slug}`);
-//     const events = await res.json();
-
-//     return {
-//         props: {
-//             evt: events[0]
-//         }
-//     }
+// 	return {
+// 		props: {
+// 			evt: events[0]
+// 		},
+// 		revalidate: 1
+// 	};
 // }
+export async function getServerSideProps({ query: {slug}}) {
+    const res = await fetch(`${API_URL}/events?slug=${slug}`);
+    const events = await res.json();
+
+    return {
+        props: {
+            evt: events[0]
+        }
+    }
+}
