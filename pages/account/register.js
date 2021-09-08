@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from "@/context/AuthContext";
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import styles from '@/styles/AuthForm.module.css';
@@ -12,6 +13,12 @@ export default function Register() {
 	const [ password, setPassword ] = useState('');
 	const [ passwordConfirm, setPasswordConfirm ] = useState('');
 
+	useEffect(() => {
+		error && toast.error(error)
+	})
+
+	const {register, error} = useContext(AuthContext)
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		
@@ -20,7 +27,7 @@ export default function Register() {
             return;
         }
 
-        console.log({username, email, password});
+        register({username, email, password});
 	};
 
 	return (
@@ -63,7 +70,7 @@ export default function Register() {
 						/>
 					</div>
 
-					<input type="submit" value="login" className="btn" />
+					<input type="submit" value="Register" className="btn" />
 				</form>
 
 				<p>
