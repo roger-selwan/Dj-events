@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Layout from "@/components/Layout";
 import styles from '@/styles/AuthForm.module.css';
 
-export default function login() {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -43,7 +43,7 @@ export default function login() {
                 </form>
 
                 <p>
-                    Don't have an account? <Link href='/account/register'>Register</Link>
+                    Dont have an account? <Link href="/account/register">Register</Link>
                 </p>
             </div>
         </Layout>
